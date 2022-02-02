@@ -1,0 +1,4 @@
+Sitemap: https://transportpersoanee.ro/sitemap.xml
+User-Agent: *
+Allow: /
+
