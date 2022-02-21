@@ -1,1 +1,156 @@
-!function(){"use strict";function e(){document.querySelector(".preloader").style.opacity="0",document.querySelector(".preloader").style.display="none"}window.onload=function(){window.setTimeout(e,500)},window.onscroll=function(){var e=document.getElementById("header_navbar"),t=document.querySelector("img#logo"),o=e.offsetTop;window.pageYOffset>o?(e.classList.add("sticky"),t.setAttribute("src","assets/images/logo-2.svg")):(e.classList.remove("sticky"),t.setAttribute("src","assets/images/logo.svg"));var c=document.querySelector(".back-to-top");document.body.scrollTop>50||document.documentElement.scrollTop>50?c.style.display="block":c.style.display="none"},document.querySelectorAll(".page-scroll").forEach(e=>{e.addEventListener("click",t=>{t.preventDefault(),document.querySelector(e.getAttribute("href")).scrollIntoView({behavior:"smooth",offsetTop:-59})})}),window.document.addEventListener("scroll",function(e){for(var t=document.querySelectorAll(".page-scroll"),o=window.pageYOffset||document.documentElement.scrollTop||document.body.scrollTop,c=0;c<t.length;c++){var s=t[c],l=s.getAttribute("href"),n=document.querySelector(l),r=o+73;n.offsetTop<=r&&n.offsetTop+n.offsetHeight>r?(document.querySelector(".page-scroll").classList.remove("active"),s.classList.add("active")):s.classList.remove("active")}});let t=document.querySelector(".navbar-toggler");var o=document.querySelector(".navbar-collapse");t.addEventListener("click",()=>{t.classList.toggle("active")}),document.querySelectorAll(".page-scroll").forEach(e=>e.addEventListener("click",()=>{t.classList.remove("active"),o.classList.remove("show")})),tns({container:".testimonial_active",items:1,slideBy:"page",autoplay:!1,mouseDrag:!0,gutter:0,nav:!0,controls:!1}),new WOW({mobile:!1}).init(),Math.easeInOutQuad=function(e,t,o,c){return(e/=c/2)<1?o/2*e*e+t:-o/2*(--e*(e-2)-1)+t},document.querySelector(".back-to-top").onclick=function(){!function(e,t=0,o=1e3){const c=e.scrollTop,s=t-c;let l=0;const n=()=>{l+=20;const t=Math.easeInOutQuad(l,c,s,o);e.scrollTop=t,l<o&&setTimeout(n,20)};n()}(document.documentElement)}}();
+(function() {
+    
+    "use strict";
+    
+    //===== Prealoder
+
+    window.onload = function() {
+        window.setTimeout(fadeout, 500);
+    }
+
+    function fadeout() {
+        document.querySelector('.preloader').style.opacity = '0';
+        document.querySelector('.preloader').style.display = 'none';
+    }
+
+    
+    /*=====================================
+    Sticky
+    ======================================= */
+    window.onscroll = function () {
+        var header_navbar = document.getElementById("header_navbar");
+        var logo = document.querySelector("img#logo");
+        var sticky = header_navbar.offsetTop;
+
+        if (window.pageYOffset > sticky) {
+            header_navbar.classList.add("sticky");
+            logo.setAttribute("src", "assets/images/logo-2.svg")
+        } else {
+            header_navbar.classList.remove("sticky");
+            logo.setAttribute("src", "assets/images/logo.svg")
+        }
+
+
+
+        // show or hide the back-top-top button
+        var backToTo = document.querySelector(".back-to-top");
+        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+            backToTo.style.display = "block";
+        } else {
+            backToTo.style.display = "none";
+        }
+    };
+
+    // Get the navbar
+
+
+    // for menu scroll 
+    var pageLink = document.querySelectorAll('.page-scroll');
+    
+    pageLink.forEach(elem => {
+        elem.addEventListener('click', e => {
+            e.preventDefault();
+            document.querySelector(elem.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth',
+                offsetTop: 1 - 60,
+            });
+        });
+    });
+
+    // section menu active
+    function onScroll(event) {
+        var sections = document.querySelectorAll('.page-scroll');
+        var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+
+        for (var i = 0; i < sections.length; i++) {
+            var currLink = sections[i];
+            var val = currLink.getAttribute('href');
+            var refElement = document.querySelector(val);
+            var scrollTopMinus = scrollPos + 73;
+            if (refElement.offsetTop <= scrollTopMinus && (refElement.offsetTop + refElement.offsetHeight > scrollTopMinus)) {
+                document.querySelector('.page-scroll').classList.remove('active');
+                currLink.classList.add('active');
+            } else {
+                currLink.classList.remove('active');
+            }
+        }
+    };
+
+    window.document.addEventListener('scroll', onScroll);
+
+
+    //===== close navbar-collapse when a  clicked
+    let navbarToggler = document.querySelector(".navbar-toggler");    
+    var navbarCollapse = document.querySelector(".navbar-collapse");
+
+    navbarToggler.addEventListener('click', () => {
+        navbarToggler.classList.toggle('active')
+    })
+
+    document.querySelectorAll(".page-scroll").forEach(e =>
+        e.addEventListener("click", () => {
+            navbarToggler.classList.remove("active");
+            navbarCollapse.classList.remove('show')
+        })
+    );
+
+
+    //===== glide tiny for testimonial
+    
+    tns({
+        container: '.testimonial_active',
+        items: 1,
+        slideBy: 'page',
+        autoplay: false,
+        mouseDrag: true,
+        gutter: 0,
+        nav: true,
+        controls: false,
+    });
+
+    //WOW Scroll Spy
+    var wow = new WOW({
+        //disabled for mobile
+        mobile: false
+    });
+    wow.init();
+
+
+        // ====== scroll top js
+    function scrollTo(element, to = 0, duration= 1000) {
+
+        const start = element.scrollTop;
+        const change = to - start;
+        const increment = 20;
+        let currentTime = 0;
+
+        const animateScroll = (() => {
+
+            currentTime += increment;
+
+            const val = Math.easeInOutQuad(currentTime, start, change, duration);
+
+            element.scrollTop = val;
+
+            if (currentTime < duration) {
+                setTimeout(animateScroll, increment);
+            }
+        });
+
+        animateScroll();
+    };
+
+    Math.easeInOutQuad = function (t, b, c, d) {
+
+        t /= d/2;
+        if (t < 1) return c/2*t*t + b;
+        t--;
+        return -c/2 * (t*(t-2) - 1) + b;
+    };
+
+    document.querySelector('.back-to-top').onclick = function () {
+        scrollTo(document.documentElement); 
+    }
+
+    
+})();
